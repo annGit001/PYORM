@@ -27,19 +27,28 @@ class Manager:
         return self.db.execute(f"SELECT * FROM {self.table}").fetchall()
 
 
+class Model:
+    db = Database()
 
 
-db = Database()
+class User(Model):
+    pass
 
-db.execute("""
+
+
+User.objects = Manager(User.db, 'user')
+
+User.db.execute("""
 CREATE TABLE IF NOT EXISTS user (
     id INTEGER PRIMARY KEY,
     name TEXT UNIQUE,
     age INTEGER
 )
 """)
-user = Manager(db, 'user')
-user.insert(name='Anna', age=25)
+
+# user = Manager(db, 'user')
+
+# user.insert(name='Anna', age=25)
 
 
 # db.execute("""
@@ -50,4 +59,12 @@ user.insert(name='Anna', age=25)
 #     Select * from user
 # """).fetchall()
 # print(rows)
-print(user.select_all())
+# print(user.select_all())
+
+
+User.objects.insert(
+    name="Anna",
+    age=25
+)
+
+print(User.objects.select_all())
