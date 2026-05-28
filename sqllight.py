@@ -9,6 +9,11 @@ class Database:
         self.conn.commit()
         return self.cursor
 
+class Field:
+    def __init__(self, column_type, default = None):
+        self.column_type = column_type
+        self.default = default
+
 class Manager:
     def __init__(self,db,table):
         self.db = db
@@ -85,9 +90,9 @@ class Model:
 
 
 class User(Model):
-    name = "TEXT"
-    age = 'INTEGER'
-    city = 'TEXT'
+    name = Field("TEXT")
+    age = Field("INTEGER")
+    city = Field("TEXT")
 
 
 User.objects = Manager(User.db, 'users')
